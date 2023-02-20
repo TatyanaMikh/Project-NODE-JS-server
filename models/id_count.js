@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const count_schema = new Schema({
-    _id : {
+
+    initial : {
         type: String,
         required:true
     },
@@ -12,7 +13,5 @@ const count_schema = new Schema({
         required:true
     }
 });
-
-
 
 module.exports = mongoose.model('count_id', count_schema);

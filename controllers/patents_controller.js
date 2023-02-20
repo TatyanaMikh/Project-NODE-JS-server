@@ -45,8 +45,9 @@ module.exports = {
     createPatent: async (req, res) => {
 
         try {
+
+            //creating unique patent_id
             const last_id_res = await Last_ID.find(null, { last_used: 1, _id: 0 });//ARRAY!!!
-            console.log(last_id_res[0].last_used);
 
             const {
                 patent_name,
@@ -60,11 +61,9 @@ module.exports = {
                 throw new Error("mandatory fields are missings");
             }
 
-            const last_id = last_id_res[0].last_used + 1;
-            const _id = '63ebf5007b91d5fb5bd6aab0';
-            console.log(_id);
-            //console.log(last_id);
-            let patent_id = last_id;
+            const patent_id = last_id_res[0].last_used + 1;
+
+
             //console.log(patent_id);
 
             const new_patent = new Patent({
@@ -75,14 +74,12 @@ module.exports = {
                 patent_category: patent_category || "Other",
 
             });
-            console.log(last_id);
-            let last_used = last_id;
-            console.log(last_used);
-           /*  const count_schema = new Last_ID({
-                last_used
-            }); */
-            await Last_ID.updateOne({_id:'63ebf5007b91d5fb5bd6aab0'}, {last_used: last_id});
-            //await new_patent.save();
+
+            console.log(patent_id);
+
+            await Last_ID.findOneAndUpdate({initial:
+                "const"}, {last_used:  patent_id});
+            await new_patent.save();
 
             return res.status(200).json({
                 success: true,
